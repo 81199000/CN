@@ -23,6 +23,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using SharpDX;
 using Color = System.Drawing.Color;
@@ -31,6 +32,8 @@ using Color = System.Drawing.Color;
 
 namespace LeagueSharp.Common
 {
+    using SharpDX.Direct3D9;
+
     /// <summary>
     ///     This class offers everything related to auto-attacks and orbwalking.
     /// </summary>
@@ -474,6 +477,7 @@ namespace LeagueSharp.Common
             private OrbwalkingMode _mode = OrbwalkingMode.None;
             private Vector3 _orbwalkingPoint;
             private Obj_AI_Minion _prevMinion;
+            public static List<Orbwalker> Instances = new List<Orbwalker>();
 
             public Orbwalker(Menu attachToMenu)
             {
@@ -544,6 +548,7 @@ namespace LeagueSharp.Common
                 Player = ObjectManager.Player;
                 Game.OnUpdate += GameOnOnGameUpdate;
                 Drawing.OnDraw += DrawingOnOnDraw;
+                Instances.Add(this);
             }
 
             public virtual bool InAutoAttackRange(AttackableUnit target)
@@ -743,7 +748,7 @@ namespace LeagueSharp.Common
                         ObjectManager.Get<Obj_AI_Minion>()
                             .Where(
                                 mob =>
-                                    mob.IsValidTarget() && InAutoAttackRange(mob) && mob.Team == GameObjectTeam.Neutral)
+                                    mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && InAutoAttackRange(mob) && mob.CharData.BaseSkinName != "gangplankbarrel")
                             .MaxOrDefault(mob => mob.MaxHealth);
                     if (result != null)
                     {
@@ -769,7 +774,7 @@ namespace LeagueSharp.Common
 
                         result = (from minion in
                                       ObjectManager.Get<Obj_AI_Minion>()
-                                          .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion))
+                                          .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion) && minion.CharData.BaseSkinName != "gangplankbarrel")
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
                                           minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
