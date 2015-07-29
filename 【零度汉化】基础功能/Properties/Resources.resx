@@ -8125,7 +8125,7 @@
 	"-> under tower": "-> \u5854\u4e0b",
 	"-> q3 circle (q must on)": "-> Q3\u5706(Q\u5fc5\u987b\u5728)",
 	"-> delay": "-> \u5ef6\u8fdf",
-	"-> if enemy hp <": "-> \u654c\u4eba\u8840\u91cf <",
+	"-> if enemy hp": "-> \u654c\u4eba\u8840\u91cf<",
 	"-> or enemy >=": "-> \u654c\u4eba\u6570 >=",
 	"--> time (ms)": "--> \u65f6\u95f4 (ms)",
 	"-> if enemy hp under": "-> \u654c\u4eba\u8840\u91cf",
