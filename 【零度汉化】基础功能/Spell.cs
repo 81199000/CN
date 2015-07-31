@@ -63,7 +63,7 @@ namespace LeagueSharp.Common
             DamageType = damageType;
 
             // Default values
-            MinHitChance = HitChance.VeryHigh;
+            MinHitChance = HitChance.High;
         }
 
         public string ChargedBuffName { get; set; }
@@ -309,6 +309,11 @@ namespace LeagueSharp.Common
             bool exactHitChance = false,
             int minTargets = -1)
         {
+            if (unit == null)
+            {
+                return CastStates.NotCasted;
+            }
+
             //Spell not ready.
             if (!Slot.IsReady())
             {
