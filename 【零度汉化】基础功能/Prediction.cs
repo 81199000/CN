@@ -434,13 +434,16 @@ namespace LeagueSharp.Common
 
                 if (input.Type == SkillshotType.SkillshotLine)
                 {
+                    if (PathTracker.GetCurrentPath(input.Unit).Time < 0.1d || input.Unit.IsWindingUp)
+                        result.Hitchance = HitChance.VeryHigh;
+                    else
                     if (PathTracker.GetAngle(input.From, input.Unit) < 32)
                         result.Hitchance = HitChance.VeryHigh;
 
                 }
                 else if (input.Type == SkillshotType.SkillshotCircle)
                 {
-                    if (input.Delay < 0.35 && (PathTracker.GetCurrentPath(input.Unit).Time < 0.1d || input.Unit.IsWindingUp))
+                    if (PathTracker.GetCurrentPath(input.Unit).Time < 0.1d || input.Unit.IsWindingUp)
                         result.Hitchance = HitChance.VeryHigh;
                 }
 
@@ -549,12 +552,12 @@ namespace LeagueSharp.Common
                     {
                         var p = pos + input.RealRadius * direction;
 
-                        if (input.Type == SkillshotType.SkillshotLine && true)
+                        if (input.Type == SkillshotType.SkillshotLine && false)
                         {
                             var alpha = (input.From.To2D() - p).AngleBetween(a - b);
                             if (alpha > 50 && alpha < 180 - 50)
                             {
-                                var beta = (float) Math.Asin(input.RealRadius / p.Distance(input.From));
+                                var beta = (float) Math.Asin(input.RealRadius * 0.85f / p.Distance(input.From));
                                 var cp1 = input.From.To2D() + (p - input.From.To2D()).Rotated(beta);
                                 var cp2 = input.From.To2D() + (p - input.From.To2D()).Rotated(-beta);
 
