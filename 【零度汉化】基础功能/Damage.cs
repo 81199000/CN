@@ -1468,15 +1468,6 @@ namespace LeagueSharp.Common
                                     new double[] { 90, 130, 170, 210, 250 }[level]
                                     + 1 * source.FlatMagicDamageMod
                             },
-                        //R - Max damage
-                        new DamageSpell
-                            {
-                                Slot = SpellSlot.R, DamageType = DamageType.Physical,
-                                Damage =
-                                    (source, target, level) =>
-                                    new double[] { 325, 663, 1001 }[level]
-                                    + 2.34 * source.FlatPhysicalDamageMod
-                            },
                     });
 
             Spells.Add(
