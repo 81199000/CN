@@ -57,7 +57,8 @@ namespace LeagueSharp.Common
         Minions,
         Heroes,
         YasuoWall,
-        Walls
+        Walls,
+        Allies
     }
 
     public class PredictionInput
@@ -413,6 +414,17 @@ namespace LeagueSharp.Common
             {
                 //input.Delay /= 2;
                 speed /= 1.5f;
+
+                if (input.Type == SkillshotType.SkillshotLine || input.Type == SkillshotType.SkillshotCone)
+                {
+                    return new PredictionOutput
+                    {
+                        Input = input,
+                        CastPosition = input.Unit.ServerPosition,
+                        UnitPosition = input.Unit.ServerPosition,
+                        Hitchance = HitChance.VeryHigh
+                    };
+                }
             }
 
             var result = GetPositionOnPath(input, input.Unit.GetWaypoints(), speed);
@@ -910,6 +922,26 @@ namespace LeagueSharp.Common
                                 }
                             }
                             break;
+                            
+                        case CollisionableObjects.Allies:
+                            foreach (var hero in
+                                HeroManager.Allies.FindAll(
+                                    hero =>
+                                       Vector3.Distance(ObjectManager.Player.ServerPosition, hero.ServerPosition) <= Math.Min(input.Range + input.Radius + 100, 2000))
+                                )
+                            {
+                                input.Unit = hero;
+                                var prediction = Prediction.GetPrediction(input, false, false);
+                                if (
+                                    prediction.UnitPosition.To2D()
+                                        .Distance(input.From.To2D(), position.To2D(), true, true) <=
+                                    Math.Pow((input.Radius + 50 + hero.BoundingRadius), 2))
+                                {
+                                    result.Add(hero);
+                                }
+                            }
+                            break;
+                            
 
                         case CollisionableObjects.Walls:
                             var step = position.Distance(input.From) / 20;
