@@ -74,7 +74,7 @@ namespace LeagueSharp.Common
         {
             "jarvanivcataclysmattack", "monkeykingdoubleattack",
             "shyvanadoubleattack", "shyvanadoubleattackdragon", "zyragraspingplantattack", "zyragraspingplantattack2",
-            "zyragraspingplantattackfire", "zyragraspingplantattack2fire", "viktorpowertransfer", "sivirwattackbounce",
+            "zyragraspingplantattackfire", "zyragraspingplantattack2fire", "viktorpowertransfer", "sivirwattackbounce", "asheqattacknoonhit",
             "elisespiderlingbasicattack", "heimertyellowbasicattack", "heimertyellowbasicattack2", "heimertbluebasicattack",
             "annietibbersbasicattack", "annietibbersbasicattack2", "yorickdecayedghoulbasicattack", "yorickravenousghoulbasicattack",
             "yorickspectralghoulbasicattack", "malzaharvoidlingbasicattack", "malzaharvoidlingbasicattack2", "malzaharvoidlingbasicattack3"
@@ -87,12 +87,6 @@ namespace LeagueSharp.Common
             "kennenmegaproc", "lucianpassiveattack", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
             "renektonsuperexecute", "rengarnewpassivebuffdash", "trundleq", "xenzhaothrust", "xenzhaothrust2",
             "xenzhaothrust3", "viktorqbuff"
-        };
-
-        // Wards
-        private static readonly string[] Wards = 
-        {
-            "sightward", "visionward"
         };
 
         // Champs whose auto attacks can't be cancelled
@@ -201,16 +195,6 @@ namespace LeagueSharp.Common
         public static bool IsMelee(this Obj_AI_Base unit)
         {
             return unit.CombatType == GameObjectCombatType.Melee;
-        }
-
-        /// <summary>
-        ///     Returns true if the unit is a ward
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        public static bool IsWard(Obj_AI_Base unit)
-        {
-            return Wards.Contains(unit.Name.ToLower());
         }
 
         /// <summary>
@@ -528,6 +512,7 @@ namespace LeagueSharp.Common
                     new MenuItem("HoldPosRadius", "Hold Position Radius").SetShared().SetValue(new Slider(0, 0, 250)));
                 misc.AddItem(new MenuItem("PriorizeFarm", "Priorize farm over harass").SetShared().SetValue(true));
                 misc.AddItem(new MenuItem("AttackWards", "Auto attack wards").SetShared().SetValue(false));
+                misc.AddItem(new MenuItem("AttackPetsnTraps", "Auto attack pets & traps").SetShared().SetValue(true));
 
                 _config.AddSubMenu(misc);
 
@@ -652,7 +637,7 @@ namespace LeagueSharp.Common
                         .Any(
                             minion =>
                                 minion.IsValidTarget() && minion.Team != GameObjectTeam.Neutral &&
-                                InAutoAttackRange(minion) &&
+                                InAutoAttackRange(minion) && MinionManager.IsMinion(minion, false) &&
                                 HealthPrediction.LaneClearHealthPrediction(
                                     minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay) <=
                                 Player.GetAutoAttackDamage(minion));
@@ -680,8 +665,7 @@ namespace LeagueSharp.Common
                         ObjectManager.Get<Obj_AI_Minion>()
                             .Where(
                                 minion =>
-                                    minion.IsValidTarget() && InAutoAttackRange(minion) && 
-                                    (_config.Item("AttackWards").GetValue<bool>() || !IsWard(minion)))
+                                    minion.IsValidTarget() && InAutoAttackRange(minion))
                                     .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                                     .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
                                     .ThenBy(minion => minion.Health)
@@ -693,7 +677,7 @@ namespace LeagueSharp.Common
                                 1000 * (int) Math.Max(0, Player.Distance(minion) - Player.BoundingRadius) / (int)GetMyProjectileSpeed();
                         var predHealth = HealthPrediction.GetHealthPrediction(minion, t, FarmDelay);
 
-                        if (minion.Team != GameObjectTeam.Neutral && MinionManager.IsMinion(minion, true))
+                        if (minion.Team != GameObjectTeam.Neutral && (_config.Item("AttackPetsnTraps").GetValue<bool>() || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>()) ))
                         {
                             if (predHealth <= 0)
                             {
@@ -782,15 +766,18 @@ namespace LeagueSharp.Common
 
                         result = (from minion in
                                       ObjectManager.Get<Obj_AI_Minion>()
-                                          .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion) && minion.CharData.BaseSkinName != "gangplankbarrel")
+                                          .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion) &&
+                                          (_config.Item("AttackWards").GetValue<bool>() || !MinionManager.IsWard(minion.CharData.BaseSkinName.ToLower())) &&
+                                          (_config.Item("AttackPetsnTraps").GetValue<bool>() || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>())) &&
+                                          minion.CharData.BaseSkinName != "gangplankbarrel")
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
                                           minion, (int)((Player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
                                   where
                                       predHealth >= 2 * Player.GetAutoAttackDamage(minion) ||
                                       Math.Abs(predHealth - minion.Health) < float.Epsilon
-                                  select minion).MaxOrDefault(m => m.Health);
-
+                                  select minion).MaxOrDefault(m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
+                        
                         if (result != null)
                         {
                             _prevMinion = (Obj_AI_Minion)result;
