@@ -23,7 +23,7 @@
 						}
                     };
 
-                var say = menu.AddItem(new MenuItem("SayHack", "Disable L# Send Chat").SetValue(false));
+                var say = menu.AddItem(new MenuItem("SayHack", "Disable L# Send Chat").SetValue(true));
                 say.SetValue(LeagueSharp.Hacks.DisableSay);
                 say.ValueChanged +=
                     delegate(object sender, OnValueChangeEventArgs args)
