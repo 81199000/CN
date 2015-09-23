@@ -9,11 +9,18 @@
                 var menu = new Menu("Hacks", "Hacks");
 
                 var draw = menu.AddItem(new MenuItem("DrawingHack", "Disable Drawing").SetValue<KeyBind>(new KeyBind(36,KeyBindType.Toggle, LeagueSharp.Hacks.DisableDrawings)));
-                draw.SetValue(LeagueSharp.Hacks.DisableDrawings);
                 draw.ValueChanged +=
                     delegate(object sender, OnValueChangeEventArgs args)
                     {
-                        LeagueSharp.Hacks.DisableDrawings = args.GetNewValue<bool>();
+                        
+						if (args.GetNewValue<KeyBind>().Active)
+						{
+							LeagueSharp.Hacks.DisableDrawings = true;
+						}
+						else
+						{
+							LeagueSharp.Hacks.DisableDrawings = false;
+						}
                     };
 
                 var say = menu.AddItem(new MenuItem("SayHack", "Disable L# Send Chat").SetValue(false));
