@@ -251,7 +251,7 @@ namespace LeagueSharp.Common
         /// </summary>
         public static float GetMyProjectileSpeed()
         {
-            return IsMelee(Player) || _championName == "Azir" || _championName == "Viktor" && Player.HasBuff("ViktorPowerTransferReturn") ? float.MaxValue : Player.BasicAttack.MissileSpeed;
+            return IsMelee(Player) || _championName == "Azir" || _championName == "Velkoz" || _championName == "Viktor" && Player.HasBuff("ViktorPowerTransferReturn") ? float.MaxValue : Player.BasicAttack.MissileSpeed;
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace LeagueSharp.Common
             }
 
             var currentPath = Player.GetWaypoints();
-            if (currentPath.Count > 1)
+            if (currentPath.Count > 1 && currentPath.PathLength() > 100)
             {
                 var movePath = Player.GetPath(point);
 
@@ -381,13 +381,16 @@ namespace LeagueSharp.Common
 
                     if (!DisableNextAttack)
                     {
-                        LastAATick = Utils.GameTimeTickCount + Game.Ping + 100 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
-                        _missileLaunched = false;
-
-                        var d = GetRealAutoAttackRange(target) - 65;
-                        if (Player.Distance(target, true) > d * d && !Player.IsMelee)
+                        if (!NoCancelChamps.Contains(_championName))
                         {
-                            LastAATick = Utils.GameTimeTickCount + Game.Ping + 400 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
+                            LastAATick = Utils.GameTimeTickCount + Game.Ping + 100 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
+                            _missileLaunched = false;
+
+                            var d = GetRealAutoAttackRange(target) - 65;
+                            if (Player.Distance(target, true) > d * d && !Player.IsMelee)
+                            {
+                                LastAATick = Utils.GameTimeTickCount + Game.Ping + 400 - (int)(ObjectManager.Player.AttackCastDelay * 1000f);
+                            }
                         }
 
                         if (!Player.IssueOrder(GameObjectOrder.AttackUnit, target))
@@ -557,7 +560,7 @@ namespace LeagueSharp.Common
                 /* Delay sliders */
                 _config.AddItem(
                     new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(80, 0, 200)));
-                _config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(0, 0, 200)));
+                _config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(30, 0, 200)));
                 _config.AddItem(
                     new MenuItem("MovementDelay", "Movement delay").SetShared().SetValue(new Slider(30, 0, 250)))
                     .ValueChanged += (sender, args) => SetMovementDelay(args.GetNewValue<Slider>().Value);
@@ -711,7 +714,7 @@ namespace LeagueSharp.Common
                                 1000 * (int) Math.Max(0, Player.Distance(minion) - Player.BoundingRadius) / (int)GetMyProjectileSpeed();
                         var predHealth = HealthPrediction.GetHealthPrediction(minion, t, FarmDelay);
 
-                        if (minion.Team != GameObjectTeam.Neutral && (_config.Item("AttackPetsnTraps").GetValue<bool>() || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>()) ))
+                        if (minion.Team != GameObjectTeam.Neutral && (_config.Item("AttackPetsnTraps").GetValue<bool>() && minion.BaseSkinName != "jarvanivstandard" || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>()) ))
                         {
                             if (predHealth <= 0)
                             {
@@ -805,7 +808,7 @@ namespace LeagueSharp.Common
                                       ObjectManager.Get<Obj_AI_Minion>()
                                           .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion) &&
                                           (_config.Item("AttackWards").GetValue<bool>() || !MinionManager.IsWard(minion.CharData.BaseSkinName.ToLower())) &&
-                                          (_config.Item("AttackPetsnTraps").GetValue<bool>() || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>())) &&
+                                          (_config.Item("AttackPetsnTraps").GetValue<bool>() && minion.CharData.BaseSkinName != "jarvanivstandard" || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>())) &&
                                           minion.CharData.BaseSkinName != "gangplankbarrel")
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
