@@ -9825,7 +9825,7 @@
 	"display drawings": "\u6253\u5f00\u663e\u793a",
 	"draw floating text": "\u663e\u793a\u6d6e\u52a8\u6587\u672c",
 	"lane freeze (toggle)": "\u63a7\u5175\u7ebf (\u9501\u5b9a)",
-		"minimum hp for a minion to have before csing damage >= hp+(%)": "\u6700\u5c0f\u8840\u91cf\u5982\u679c\u5c0f\u5175\u4f24\u5bb3> =\u8840\u91cf\uff08%\uff09",
+	"minimum hp for a minion to have before csing damage >= hp+(%)": "\u6700\u5c0f\u8840\u91cf\u5982\u679c\u5c0f\u5175\u4f24\u5bb3> =\u8840\u91cf\uff08%\uff09",
 	"maximum hp for a minion to have before csing damage >= hp+(%)": "\u6700\u5927\u8840\u91cf\u5982\u679c\u5c0f\u5175> =\u8840\u91cf\uff08%\uff09",
 	"display keybinds": "\u663e\u793a\u5feb\u6377\u952e",
 	"draw damage fill": "\u663e\u793a\u4f24\u5bb3\u586b\u5145",
@@ -9837,7 +9837,7 @@
 	"use w to last hit": "\u4f7f\u7528W\u8865\u5175",
 	"use e to last hit": "\u4f7f\u7528E\u8865\u5175",
 	"use r to lane clear": "\u4f7f\u7528R\u6e05\u5175",
-	"min. minions to use r": "\u6700\u5c11\u5c0f\u5175\u4f7f\u7528R
+	"min. minions to use r": "\u6700\u5c11\u5c0f\u5175\u4f7f\u7528R",
 	"min. % mana for jungle clear": "\u6700\u5c0f\u84dd\u91cf\u6e05\u91ce",
 	"use q to last hit": "\u4f7f\u7528Q \u8865\u5175",
 	"use w to last hit": "\u4f7f\u7528W \u8865\u5175",
@@ -10004,6 +10004,15 @@
 	"use advance e logic (beta)": "\u4f7f\u7528\u9884\u5148\u7684E\u903b\u8f91\uff08\u6d4b\u8bd5\uff09",
 	"use early if target will bleed to death (1v1)": "\u63d0\u524d\u4f7f\u7528R \u5982\u679c\u76ee\u6807\u4f1a\u6d41\u8840\u81f4\u6b7b\uff081v1\uff09",
 	"adjust ult damage (less if target doesnt die)": "\u8c03\u6574\u7ed3\u679c\u635f\u4f24\uff08\u5c11\u5982\u679c\u76ee\u6807\u4e0d\u6b7b\uff09",
+	":: combo settings": ":: \u8fde\u62db\u8bbe\u7f6e",
+	":: farm settings": ":: \u8865\u5175\u8bbe\u7f6e",
+	"cast only on if immobile": "\u53ea\u4f7f\u7528\u7ed9\u7981\u9522\u7684",
+	"use in combo if enemies >= ": "\u8fde\u62db\u4f7f\u7528 \u5982\u679c\u654c\u4eba\u6570\u91cf>=",
+	"use automatic if enemies >= ": "\u81ea\u52a8\u4f7f\u7528 \u5982\u679c\u654c\u4eba\u6570\u91cf>=",
+	"-> if min minions >=": "->\u6700\u5c11\u5c0f\u5175> =",
+	"waveclear (active)": "\u6e05\u5175\uff08\u4e3b\u52a8\uff09",
+	":: support mode": ":: \u652f\u6301\u6a21\u5f0f",
+	"disable aa if target distance from target >": "\u7981\u6b62\u0041\u0041\u0020\u5982\u679c\u76ee\u6807\u8ddd\u79bb\u003e",
 	"w obj. pos.": "W\u7269\u4f53"
 }</value>
   </data>
