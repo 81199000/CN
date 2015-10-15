@@ -10816,6 +10816,17 @@
 	"auto e if any enemy is on range": "\u5982\u679c\u654c\u4eba\u8fdb\u5165\u8303\u56f4\uff0c\u81ea\u52a8E",
 	"force r using mouse buttons (cursor sprite)": "\u4f7f\u7528R \u9f20\u6807\u6309\u94ae\uff08\u5149\u6807\u7cbe\u7075\uff09",
 	"color scheme": "\u914d\u8272\u65b9\u6848",
+	"disable auto-attack if yasuo wall collision": "\u5982\u679c\u4e9a\u7d22\u653e\u98ce\u5899\u0020\u7981\u6b62\u81ea\u52a8\u653b\u51fb",
+	"force e + q": "\u4f7f\u7528\u0020\u0045\u002b\u0051",
+	"e melee ks only": "\u8fd1\u6218\u0020\u0045\u0020\u53ea\u62a2\u4eba\u5934",
+	"hard cc": "\u786c\u63a7",
+	"poison": "\u6bd2\u836f",
+	"force block player": "\u5f3a\u5236\u963b\u6321\u73a9\u5bb6",
+	"oninterruptablespell": "\u6280\u80fd\u987a\u5e8f\u8868",
+	"spells farm toggle": "\u6280\u80fd\u8865\u5175\u5207\u6362",
+	"oktw spells farm": "\u006f\u006b\u0074\u0077\u9b54\u6cd5\u519c\u573a",
+	"spells farm toggle mode": "\u6280\u80fd\u8865\u5175\u5207\u6362\u6a21\u5f0f",
+	"key toggle": "\u6309\u952e\u5207\u6362",
     "w obj. pos.": "W\u7269\u4f53"
 }</value>
   </data>
