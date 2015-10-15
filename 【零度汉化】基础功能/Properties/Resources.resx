@@ -11087,7 +11087,7 @@
 	"auto w slow/immobile": "\u81ea\u52a8W\u6162/\u4e0d\u52a8",
 	"auto w slow/imm mana": "\u81ea\u52a8W \u6162/ IMM\u7684\u6cd5\u529b",
 	"switch q lasthit/laneclear": "Q\u5f00\u5173\u6e05\u5175 / \u8865\u5175",
-	"autoswitch to minigun if no enemies in \": "\u5982\u679c\u6ca1\u6709\u654c\u4eba\u81ea\u52a8\u5f00\u5173\u5230\u673a\u67aa",
+	"autoswitch to minigun if no enemies in": "\u5982\u679c\u6ca1\u6709\u654c\u4eba\u81ea\u52a8\u5f00\u5173\u5230\u673a\u67aa",
 	"combo/harass: minimum w range": "\u8fde\u62db/\u9a9a\u6270\uff1a\u6700\u5c0fW\u8303\u56f4",
 	"prevent overkill (w/aa)": "\u9632\u6b62\u8fc7\u5ea6\uff08W / AA\uff09",
 	"reset to default/optimal values": "\u91cd\u7f6e\u4e3a\u9ed8\u8ba4\u503c/\u6700\u4f73\u503c",
