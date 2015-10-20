@@ -72,12 +72,19 @@ namespace LeagueSharp.Common
         //Spells that are not attacks even if they have the "attack" word in their name.
         private static readonly string[] NoAttacks =
         {
-            "volleyattack", "volleyattackwithsound", "jarvanivcataclysmattack", "monkeykingdoubleattack",
-            "shyvanadoubleattack", "shyvanadoubleattackdragon", "zyragraspingplantattack", "zyragraspingplantattack2",
-            "zyragraspingplantattackfire", "zyragraspingplantattack2fire", "viktorpowertransfer", "sivirwattackbounce", "asheqattacknoonhit",
-            "elisespiderlingbasicattack", "heimertyellowbasicattack", "heimertyellowbasicattack2", "heimertbluebasicattack",
-            "annietibbersbasicattack", "annietibbersbasicattack2", "yorickdecayedghoulbasicattack", "yorickravenousghoulbasicattack",
-            "yorickspectralghoulbasicattack", "malzaharvoidlingbasicattack", "malzaharvoidlingbasicattack2", "malzaharvoidlingbasicattack3"
+            "volleyattack", "volleyattackwithsound", "jarvanivcataclysmattack",
+            "monkeykingdoubleattack", "shyvanadoubleattack",
+            "shyvanadoubleattackdragon", "zyragraspingplantattack",
+            "zyragraspingplantattack2", "zyragraspingplantattackfire",
+            "zyragraspingplantattack2fire", "viktorpowertransfer",
+            "sivirwattackbounce", "asheqattacknoonhit",
+            "elisespiderlingbasicattack", "heimertyellowbasicattack",
+            "heimertyellowbasicattack2", "heimertbluebasicattack",
+            "annietibbersbasicattack", "annietibbersbasicattack2",
+            "yorickdecayedghoulbasicattack", "yorickravenousghoulbasicattack",
+            "yorickspectralghoulbasicattack", "malzaharvoidlingbasicattack",
+            "malzaharvoidlingbasicattack2", "malzaharvoidlingbasicattack3",
+            "kindredwolfbasicattack", "kindredbasicattackoverridelightbombfinal"
         };
 
         //Spells that are attacks even if they dont have the "attack" word in their name.
@@ -312,13 +319,6 @@ namespace LeagueSharp.Common
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
         {
-            if (Utils.GameTimeTickCount - LastMoveCommandT < (70 + Math.Min(60, Game.Ping)) && !overrideTimer)
-            {
-                return;
-            }
-
-            LastMoveCommandT = Utils.GameTimeTickCount;
-
             var playerPosition = Player.ServerPosition;
 
             if (playerPosition.Distance(position, true) < holdAreaRadius * holdAreaRadius)
@@ -327,7 +327,7 @@ namespace LeagueSharp.Common
                 {
                     Player.IssueOrder(GameObjectOrder.Stop, playerPosition);
                     LastMoveCommandPosition = playerPosition;
-                    LastMoveCommandT -= 70;
+                    LastMoveCommandT = Utils.GameTimeTickCount - 70;
                 }
                 return;
             }
@@ -338,7 +338,7 @@ namespace LeagueSharp.Common
             {
                 point = playerPosition.Extend(position, (randomizeMinDistance ? (_random.NextFloat(0.6f, 1) + 0.2f) * _minDistance : _minDistance));
             }
-
+            var angle = 0f;
             var currentPath = Player.GetWaypoints();
             if (currentPath.Count > 1 && currentPath.PathLength() > 100)
             {
@@ -348,7 +348,7 @@ namespace LeagueSharp.Common
                 {
                     var v1 = currentPath[1] - currentPath[0];
                     var v2 = movePath[1] - movePath[0];
-                    var angle = v1.AngleBetween(v2.To2D());
+                    angle = v1.AngleBetween(v2.To2D());
                     var distance = movePath.Last().To2D().Distance(currentPath.Last(), true);
 
                     if ((angle < 10 && distance < 500*500) || distance < 50*50)
@@ -357,9 +357,20 @@ namespace LeagueSharp.Common
                     }
                 }
             }
+            
+            if (Utils.GameTimeTickCount - LastMoveCommandT < (70 + Math.Min(60, Game.Ping)) && !overrideTimer && angle < 60)
+            {
+                return;
+            }
+
+            if(angle >= 60 && Utils.GameTimeTickCount - LastMoveCommandT < 60)
+            {
+                return;
+            }
 
             Player.IssueOrder(GameObjectOrder.MoveTo, point);
             LastMoveCommandPosition = point;
+            LastMoveCommandT = Utils.GameTimeTickCount;
         }
 
         /// <summary>
@@ -561,9 +572,6 @@ namespace LeagueSharp.Common
                 _config.AddItem(
                     new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(80, 0, 200)));
                 _config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(30, 0, 200)));
-                _config.AddItem(
-                    new MenuItem("MovementDelay", "Movement delay").SetShared().SetValue(new Slider(30, 0, 250)))
-                    .ValueChanged += (sender, args) => SetMovementDelay(args.GetNewValue<Slider>().Value);
 
                 /*Load the menu*/
                 _config.AddItem(
@@ -576,9 +584,6 @@ namespace LeagueSharp.Common
 
                 _config.AddItem(
                     new MenuItem("Orbwalk", "Combo").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
-
-                _delay = _config.Item("MovementDelay").GetValue<Slider>().Value;
-
 
                 Player = ObjectManager.Player;
                 Game.OnUpdate += GameOnOnGameUpdate;
@@ -688,7 +693,7 @@ namespace LeagueSharp.Common
                     !_config.Item("PriorizeFarm").GetValue<bool>())
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target != null)
+                    if (target != null && InAutoAttackRange(target))
                     {
                         return target;
                     }
@@ -764,7 +769,7 @@ namespace LeagueSharp.Common
                 if (ActiveMode != OrbwalkingMode.LastHit)
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target.IsValidTarget())
+                    if (target.IsValidTarget() && InAutoAttackRange(target))
                     {
                         return target;
                     }

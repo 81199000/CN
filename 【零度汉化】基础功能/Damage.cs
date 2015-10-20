@@ -348,7 +348,7 @@ namespace LeagueSharp.Common
                               source.CalcDamage(
                                   target,
                                   DamageType.Physical,
-                                  (source.BaseAttackDamage + source.FlatPhysicalDamageMod)),
+                                  (source.BaseAttackDamage + source.FlatPhysicalDamageMod)) - 10f,
                     };
             AttackPassives.Add(p);
 
@@ -676,14 +676,14 @@ namespace LeagueSharp.Common
                                     new double[] { 60, 90, 120, 150, 180 }[level] * 2
                                     + 1 * source.FlatMagicDamageMod
                             },
-                        //E - not chilled targets - TODO
+                        //E
                         new DamageSpell
                             {
                                 Slot = SpellSlot.E, DamageType = DamageType.Magical,
                                 Damage =
                                     (source, target, level) =>
-                                    new double[] { 55, 85, 115, 145, 175 }[level]
-                                    + 0.5 * source.FlatMagicDamageMod
+                                    (new double[] { 55, 85, 115, 145, 175 }[level]
+                                    + 0.5 * source.FlatMagicDamageMod) * (target.HasBuff("chilled") ? 2 : 1)
                             },
                         //R - per second
                         new DamageSpell
@@ -2512,6 +2512,40 @@ namespace LeagueSharp.Common
                                         }
                                         return 0;
                                     }
+                            },
+                    }); 
+
+            Spells.Add(
+                "Kindred",
+                new List<DamageSpell>
+                    {
+                        //Q
+                        new DamageSpell
+                            {
+                                Slot = SpellSlot.Q, DamageType = DamageType.Physical,
+                                Damage =
+                                    (source, target, level) =>
+                                    new double[] { 60, 90, 120, 150, 180}[level]
+                                    + (source.BaseAttackDamage + source.FlatPhysicalDamageMod) * 0.2f
+                            },
+                        //W
+                        new DamageSpell
+                            {
+                                Slot = SpellSlot.W, DamageType = DamageType.Physical,
+                                Damage =
+                                    (source, target, level) =>
+                                    new double[] { 25, 30, 35, 40, 45 }[level]
+                                    + (source.BaseAttackDamage + source.FlatPhysicalDamageMod) * 0.4f
+                            },
+                        //E
+                        new DamageSpell
+                            {
+                                Slot = SpellSlot.E, DamageType = DamageType.Physical,
+                                Damage =
+                                    (source, target, level) =>
+                                    new double[] { 80, 110, 140, 170, 200 }[level]
+                                    + (source.BaseAttackDamage + source.FlatPhysicalDamageMod) * 0.2f
+                                    + target.MaxHealth * 0.05f
                             },
                     });
 
