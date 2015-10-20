@@ -11148,6 +11148,23 @@
 	"x coordinate": "X\u5750\u6807",
 	"y coordinate": "\u5750\u6807",
 	"image scale %": "\u56fe\u50cf\u6bd4\u4f8b%",
+	"r black list": "R \u9ed1\u540d\u5355",
+	"draw wolf time": "\u663e\u793a\u72fc\u5f62\u6001\u8ba1\u65f6",
+	"draw w passive (max stacks)": "\u663e\u793aW\u88ab\u52a8\uff08\u6700\u5927\u53e0\u6808\uff09",
+	"kindredspirits": "\u3010\u96f6\u5ea6\u6c49\u5316\u3011\u6c38\u6052\u730e\u624b",
+	"q safety check": "Q \u5b89\u5168\u68c0\u67e5",
+	"q kitemachine": "Q \u98ce\u7b5d\u673a",
+	"q always to cursor": "Q \u603b\u662f\u5f80\u9f20\u6807\u65b9\u5411",
+	"only use e before attack": "\u53ea\u6709\u5728\u4f7f\u7528E\u4e4b\u524d\u653b\u51fb",
+	"only e selected target": "\u53eaE\u9009\u5b9a\u7684\u76ee\u6807",
+	"ignite killsteal": "\u70b9\u71c3\u62a2\u4eba\u5934",
+	"smite killsteal": "\u60e9\u6212\u62a2\u4eba\u5934",
+	"q jungle clear": "Q\u6e05\u91ce",
+	"e jungle clear": "E\u6e05\u91ce",
+	"move to cursor position": "\u79fb\u52a8\u5230\u9f20\u6807\u4f4d\u7f6e",
+	"minimum allies in range": "\u6700\u5c0f\u76df\u53cb",
+	"maximum enemies in range": "\u6700\u5927\u8303\u56f4\u5185\u654c\u4eba",
+	"self health percent": "\u81ea\u5df1\u8840\u91cf%",
     "w obj. pos.": "W\u7269\u4f53"
 }</value>
   </data>
