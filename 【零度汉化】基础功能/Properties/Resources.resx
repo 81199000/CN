@@ -11375,6 +11375,11 @@
 	"auto qe if hit >= enemies": "\u81ea\u52a8QE\uff0c\u5982\u679c\u6253> =\u654c\u4eba",
 	"qe hitchance": "QE \u547d\u4e2d\u7387",
 	"use if target hp \u003c= %": "\u4f7f\u7528\u5982\u679c\u76ee\u6807\u503c\u4e3a%",
+	"extended zoom": "\u65e0\u9650\u89c6\u8ddd",
+	"note: zoomhack may be unsafe!": "\u6ce8\uff1a\u65e0\u9650\u89c6\u8ddd\u53ef\u80fd\u4e0d\u5b89\u5168\uff01",
+	"tooltip notification duration": "\u63d0\u793a\u901a\u77e5\u65f6\u95f4",
+	"limit casting attempts": "\u6781\u9650\u94f8\u9020\u5c1d\u8bd5",
+	"----use ts in common menu----": "----\u76ee\u6807\u9009\u62e9\u5668\u5df2\u79fb\u81f3\u57fa\u7840\u529f\u80fd\u83dc\u5355----",
     "w obj. pos.": "W\u7269\u4f53"
 }</value>
   </data>
