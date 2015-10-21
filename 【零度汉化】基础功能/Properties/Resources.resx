@@ -119,6 +119,7 @@
   </resheader>
   <data name="ChineseJson" xml:space="preserve">
     <value>{
+	"\u003c": "\u003c",
     "yasuo": "\u75be\u98ce\u5251\u8c6a",
     "velkoz": "\u865a\u7a7a\u4e4b\u773c",
     "braum": "\u5f17\u96f7\u5c14\u5353\u5fb7\u4e4b\u5fc3",
@@ -7226,6 +7227,7 @@
     "lane clear e": "\u4f7f\u7528E\u8865\u5175",
     "q": "Q",
     "w": "W",
+	"\u003c": "\u003c",
     "onpossibletointerrupt q": "\u5982\u679c\u80fd\u4f7f\u7528Q\u6765\u4e2d\u65ad",
     "onpossibletointerrupt r": "\u5982\u679c\u80fd\u4f7f\u7528R\u6765\u4e2d\u65ad",
     "fastfullcombo onekey": "\u5feb\u901f\u8fde\u62db \u4e00\u952e",
