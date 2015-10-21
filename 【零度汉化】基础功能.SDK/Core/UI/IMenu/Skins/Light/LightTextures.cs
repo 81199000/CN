@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DefaultTextures.cs" company="LeagueSharp">
+// <copyright file="LightTextures.cs" company="LeagueSharp">
 //   Copyright (C) 2015 LeagueSharp
 //   
 //   This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeagueSharp.SDK.Core.UI.IMenu.Skins.Default
+namespace LeagueSharp.SDK.Core.UI.IMenu.Skins.Light
 {
     using System.Drawing;
 
@@ -34,39 +34,39 @@ namespace LeagueSharp.SDK.Core.UI.IMenu.Skins.Default
     using SharpDX;
     using SharpDX.Direct3D9;
 
-    internal enum DefaultTexture
+    internal enum LightTexture
     {
-        Dragging
+        Dragging,
     }
 
-    internal class DefaultTextures
+    internal class LightTextures
     {
 
-        private readonly Dictionary<DefaultTexture, TextureWrapper> textures = new Dictionary<DefaultTexture, TextureWrapper>();
+        private readonly Dictionary<LightTexture, BlueTextureWrapper> textures = new Dictionary<LightTexture, BlueTextureWrapper>();
 
-        public static readonly DefaultTextures Instance = new DefaultTextures();
+        public static readonly LightTextures Instance = new LightTextures();
 
-        private DefaultTextures()
+        private LightTextures()
         {
-            textures[DefaultTexture.Dragging] = BuildTexture(Resources.cursor_drag, 16, 16);
+            this.textures[LightTexture.Dragging] = BuildTexture(Resources.cursor_drag, 16, 16);
         }
 
-        ~DefaultTextures()
+        ~LightTextures()
         {
-            foreach (var entry in textures.Where(entry => !entry.Value.Texture.IsDisposed)) {
+            foreach (var entry in this.textures.Where(entry => !entry.Value.Texture.IsDisposed)) {
                 entry.Value.Texture.Dispose();
             }
         }
 
-        public TextureWrapper this[DefaultTexture textureType]
+        public BlueTextureWrapper this[LightTexture textureType]
         {
             get
             {
-                return textures[textureType];
+                return this.textures[textureType];
             }
         }
 
-        private static TextureWrapper BuildTexture(Image bmp, int height, int width)
+        private BlueTextureWrapper BuildTexture(Image bmp, int height, int width)
         {
             var resized = new Bitmap(bmp, width, height);
             var texture =  Texture.FromMemory(
@@ -83,22 +83,28 @@ namespace LeagueSharp.SDK.Core.UI.IMenu.Skins.Default
                 0);
             resized.Dispose();
             bmp.Dispose();
-            return new TextureWrapper(texture, width, height);
+            return new BlueTextureWrapper(texture, width, height);
+        }
+
+        public BlueTextureWrapper AddTexture(Image bmp, int width, int height, LightTexture textureType)
+        {
+            this.textures[textureType] = BuildTexture(bmp, height, width);
+            return this.textures[textureType];
         }
         
     }
 
-    internal class TextureWrapper
+    internal class BlueTextureWrapper
     {
         public Texture Texture { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public TextureWrapper(Texture texture, int width, int height)
+        public BlueTextureWrapper(Texture texture, int width, int height)
         {
-            Texture = texture;
-            Width = width;
-            Height = height;
+            this.Texture = texture;
+            this.Width = width;
+            this.Height = height;
         }
         
     }
