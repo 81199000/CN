@@ -11543,6 +11543,23 @@
 	"tooltip notification duration": "\u63d0\u793a\u901a\u77e5\u65f6\u95f4",
 	"limit casting attempts": "\u6781\u9650\u94f8\u9020\u5c1d\u8bd5",
 	"----use ts in common menu----": "----\u76ee\u6807\u9009\u62e9\u5668\u5df2\u79fb\u81f3\u57fa\u7840\u529f\u80fd\u83dc\u5355----",
+	"e lasthit no psn": "E \u8865\u5175 \u6ca1\u4e2d\u6bd2",
+	"draw poison": "\u663e\u793a\u6bd2\u836f",
+	"q spell radius": "Q \u6280\u80fd\u534a\u5f84",
+	"q spell delay": "Q \u6280\u80fd\u5ef6\u8fdf",
+	"w spell radius": "W \u6280\u80fd\u534a\u5f84",
+	"w spell delay": "W\u6280\u80fd\u5ef6\u8fdf",
+	"w combo": "W \u8fde\u62db",
+	"e combo": "E \u8fde\u62db",
+	"q spell value": "Q \u6280\u80fd\u503c",
+	"targets needed to flash -> r(stun)": "\u95ea\u73b0\u5230\u9009\u5b9a\u76ee\u6807-R\uff08\u7729\u6655\uff09",
+	"draw flash -> r combo range": "\u663e\u793a\u95ea\u73b0-R \u7684\u8fde\u62db\u8303\u56f4",
+	"harass active (toggle)": "\u9a9a\u6270\u542f\u7528\uff08\u5207\u6362\uff09",
+	"adjust ultimate dmg": "\u6700\u7ec8\u4f24\u5bb3\u8c03\u6574",
+	"disable on ": "\u7981\u7528",
+	"min targets": "\u6700\u5c0f\u76ee\u6807",
+	"flash ult": "\u95ea\u73b0\u5927\u62db",
+	"block damage with w": "\u963b\u6321\u4f24\u5bb3W",
     "w obj. pos.": "W\u7269\u4f53"
 }</value>
   </data>
