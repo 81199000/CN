@@ -228,7 +228,7 @@ namespace LeagueSharp.Common
 
         public static Color BackgroundColor
         {
-            get { return Color.FromArgb(100, Color.Black); }
+            get { return Color.FromArgb(200, Color.Black); }
         }
 
         public static Color ActiveBackgroundColor
