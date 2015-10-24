@@ -183,7 +183,7 @@ namespace LeagueSharp.Common
                 "Alistar", "Amumu", "Bard", "Blitzcrank", "Braum", "Cho'Gath", "Dr. Mundo", "Garen", "Gnar",
                 "Hecarim", "Janna", "Jarvan IV", "Leona", "Lulu", "Malphite", "Nami", "Nasus", "Nautilus", "Nunu",
                 "Olaf", "Rammus", "Renekton", "Sejuani", "Shen", "Shyvana", "Singed", "Sion", "Skarner", "Sona",
-                "Soraka", "Taric", "Thresh", "Volibear", "Warwick", "MonkeyKing", "Yorick", "Zac", "Zyra"
+                "Taric", "Thresh", "Volibear", "Warwick", "MonkeyKing", "Yorick", "Zac", "Zyra"
             };
 
             string[] p2 =
@@ -209,6 +209,11 @@ namespace LeagueSharp.Common
                 "Zed", "Ziggs"
             };
 
+            string[] p5 =
+            {
+                "Soraka"
+            };
+
             if (p1.Contains(championName))
             {
                 return 1;
@@ -221,7 +226,22 @@ namespace LeagueSharp.Common
             {
                 return 3;
             }
+            if (_configMenu.Item("FuckSoraka").GetValue<bool>())
+            {
+                if (p5.Contains(championName))
+                {
+                    return 4;
+                }
+            }
+            else
+            {
+                if (p5.Contains(championName))
+                {
+                    return 1;
+                }
+            }
             return p4.Contains(championName) ? 4 : 1;
+
         }
 
 
@@ -229,19 +249,19 @@ namespace LeagueSharp.Common
         {
             CustomEvents.Game.OnGameLoad += args =>
             {
-                Menu config = new Menu("Target Selector", "TargetSelector");
+                Menu config = new Menu("目标选择", "TargetSelector");
 
                 _configMenu = config;
 
-                config.AddItem(new MenuItem("FocusSelected", "Focus selected target").SetShared().SetValue(true));
+                config.AddItem(new MenuItem("FocusSelected", "集中攻击选择的目标").SetShared().SetValue(true));
                 config.AddItem(
-                    new MenuItem("ForceFocusSelected", "Only attack selected target").SetShared().SetValue(false))
+                    new MenuItem("ForceFocusSelected", "仅攻击被选择的目标").SetShared().SetValue(false))
                     .Permashow();
                 config.AddItem(
-                    new MenuItem("SelTColor", "Selected target color").SetShared().SetValue(new Circle(true, Color.Red)));
-                config.AddItem(new MenuItem("Sep", "").SetShared());
+                    new MenuItem("SelTColor", "被选择目标地下线圈颜色").SetShared().SetValue(new Circle(true, Color.Red)));
+                config.AddItem(new MenuItem("FuckSoraka", "自动提高索拉卡目标选择位置").SetShared().SetValue(true));
                 var autoPriorityItem =
-                    new MenuItem("AutoPriority", "Auto arrange priorities").SetShared().SetValue(false);
+                    new MenuItem("AutoPriority", "自动排列顺序").SetShared().SetValue(false);
                 autoPriorityItem.ValueChanged += autoPriorityItem_ValueChanged;
 
                 foreach (var enemy in HeroManager.Enemies)
@@ -261,16 +281,16 @@ namespace LeagueSharp.Common
                 }
                 config.AddItem(autoPriorityItem);
                 config.AddItem(
-                    new MenuItem("TargetingMode", "Target Mode").SetShared()
+                    new MenuItem("TargetingMode", "目标模式").SetShared()
                         .SetValue(new StringList(Enum.GetNames(typeof (TargetingMode)))));
-
+                config.AddItem(new MenuItem("Flowers", "汉化-花边"));
                 CommonMenu.Config.AddSubMenu(config);
             };
         }
 
         public static void AddToMenu(Menu config)
         {
-            config.AddItem(new MenuItem("Alert", "----Use TS in Common Menu----"));
+            config.AddItem(new MenuItem("Alert", "----目标选择请在菜单看库设置----"));
         }
 
         private static void autoPriorityItem_ValueChanged(object sender, OnValueChangeEventArgs e)
@@ -288,6 +308,13 @@ namespace LeagueSharp.Common
 
         public static bool IsInvulnerable(Obj_AI_Base target, DamageType damageType, bool ignoreShields = true)
         {
+            //Kindred's Lamb's Respite(R)
+
+            if (target.HasBuff("kindrednodeathbuff"))
+            {
+                return true;
+            }
+
             // Tryndamere's Undying Rage (R)
             if (target.HasBuff("Undying Rage") && target.Health <= target.MaxHealth * 0.10f)
             {
