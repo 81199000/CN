@@ -177,6 +177,20 @@ namespace LeagueSharp.Common
 
             #endregion
 
+            #region Ekko
+
+            p = new PassiveDamage
+            {
+                ChampionName = "Ekko",
+                IsActive = (source, target) => (target.GetBuffCount("EkkoStacks") == 3),
+                GetDamage = (source, target) =>
+                 (float) source.CalcDamage(target, DamageType.Magical, 10 + (source.Level * 10) + (source.FlatMagicDamageMod * 0.8)),
+            };
+            AttackPassives.Add(p);
+
+            #endregion
+
+
             #region Gnar
 
             p = new PassiveDamage
@@ -4387,6 +4401,41 @@ namespace LeagueSharp.Common
                                     + 0.5 * source.FlatMagicDamageMod
                             },
                     });
+
+            Spells.Add(
+                "TahmKench",
+                new List<DamageSpell>
+                    {
+                        //Q
+                        new DamageSpell
+                            {
+                                Slot = SpellSlot.Q, DamageType = DamageType.Magical,
+                                Damage =
+                                    (source, target, level) =>
+                                    new double[] { 80, 125, 170, 215, 260 }[level] 
+                                    + 0.7 * source.FlatMagicDamageMod
+                            },
+                        //W - Devour 
+                        new DamageSpell
+                            {
+                                Slot = SpellSlot.W, DamageType = DamageType.Magical,
+                                Damage =
+                                    (source, target, level) => target is Obj_AI_Minion ?  
+                                    new double[] { 400, 450, 500, 550, 600 }[level] :
+                                    new double[] { 0.20, 0.23, 0.26, 0.29, 0.32 }[level]
+                                    * 0.02 * source.FlatMagicDamageMod / 100 * target.MaxHealth
+                            },
+                        //W - Regugitate
+                        new DamageSpell
+                            {
+                                Slot = SpellSlot.W, Stage = 1, DamageType = DamageType.Magical,
+                                Damage =
+                                    (source, target, level) =>
+                                    new double[] { 100, 150, 200, 250, 300 }[level]
+                                    + 0.6 * source.FlatMagicDamageMod
+                            },
+                    });
+
 
             Spells.Add(
                 "Teemo",

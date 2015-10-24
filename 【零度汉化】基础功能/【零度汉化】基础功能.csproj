@@ -72,19 +72,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="clipper_library">
-      <HintPath>C:\LeagueSharp\System\clipper_library.dll</HintPath>
+      <HintPath>D:\LeagueSharp\System\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp">
-      <HintPath>C:\LeagueSharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>D:\LeagueSharp\System\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Sandbox">
-      <HintPath>C:\LeagueSharp\System\LeagueSharp.Sandbox.dll</HintPath>
+      <HintPath>D:\LeagueSharp\System\LeagueSharp.Sandbox.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>C:\LeagueSharp\System\SharpDX.dll</HintPath>
+      <HintPath>D:\LeagueSharp\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9">
-      <HintPath>C:\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>D:\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -111,6 +111,7 @@
     <Compile Include="Data\ItemData.cs" />
     <Compile Include="Data\MasteryData.cs" />
     <Compile Include="FakeClicks.cs" />
+    <Compile Include="Flowers.cs" />
     <Compile Include="GamePacket.cs" />
     <Compile Include="Hacks.cs" />
     <Compile Include="HealthPrediction.cs" />
